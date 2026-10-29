@@ -10,7 +10,6 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
-	"runtime"
 	"slices"
 	"strconv"
 	"strings"
@@ -368,18 +367,10 @@ func FindSymbolWithPattern(debugInfo, content string, clues []string) ([]string,
 	return nil, ""
 }
 
-// CreateJunction creates a junction in Windows or a symlink in Linux/Mac.
+// CreateJunction creates a symlink in Linux/Mac.
 func CreateJunction(location, destination string) error {
 	CheckExistAndDelete(destination)
-	switch runtime.GOOS {
-	case "windows":
-		exec.Command("cmd", "/C", "rmdir", destination).Run()
-		return exec.Command("cmd", "/C", "mklink", "/J", destination, location).Run()
-	case "linux", "darwin":
-		return exec.Command("ln", "-Fsf", location, destination).Run()
-	}
-
-	return nil
+	return exec.Command("ln", "-Fsf", location, destination).Run()
 }
 
 func SeekToCloseParen(content string, regexpTerm string, leftChar, rightChar byte) string {

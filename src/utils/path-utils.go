@@ -8,23 +8,6 @@ import (
 	"strings"
 )
 
-func MigrateConfigFolder() {
-	if runtime.GOOS == "windows" {
-		source := filepath.Join(os.Getenv("USERPROFILE"), ".spicetify")
-		if _, err := os.Stat(source); err == nil {
-			spinner, _ := Spinner.Start("Migrating config folder")
-			destination := GetSpicetifyFolder()
-			err := Copy(source, destination, true, nil)
-			if err != nil {
-				spinner.Fail("Failed to migrate config folder")
-				Fatal(err)
-			}
-			os.RemoveAll(source)
-			spinner.Success("Migrated config folder")
-		}
-	}
-}
-
 func MigrateFolders() {
 	backupPath := filepath.Join(GetSpicetifyFolder(), "Backup")
 	extractedPath := filepath.Join(GetSpicetifyFolder(), "Extracted")
@@ -93,11 +76,7 @@ func GetSpicetifyFolder() string {
 		return result
 	}
 
-	if runtime.GOOS == "windows" {
-		parent := os.Getenv("APPDATA")
-
-		result = filepath.Join(parent, "spicetify")
-	} else if runtime.GOOS == "linux" {
+	if runtime.GOOS == "linux" {
 		parent, isAvailable := os.LookupEnv("XDG_CONFIG_HOME")
 
 		if !isAvailable || len(parent) == 0 {
@@ -124,11 +103,7 @@ func GetStateFolder(name string) string {
 		return result
 	}
 
-	if runtime.GOOS == "windows" {
-		parent := os.Getenv("APPDATA")
-
-		result = filepath.Join(parent, "spicetify")
-	} else if runtime.GOOS == "linux" {
+	if runtime.GOOS == "linux" {
 		parent, isAvailable := os.LookupEnv("XDG_STATE_HOME")
 
 		if !isAvailable || len(parent) == 0 {

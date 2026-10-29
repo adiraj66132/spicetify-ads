@@ -122,18 +122,6 @@ func Start(version string, spotifyBasePath string, extractedAppsPath string, fla
 
 	var spotifyBinaryPath string
 	switch runtime.GOOS {
-	case "windows":
-		dllPath := filepath.Join(spotifyBasePath, "spotify.dll")
-		exePath := filepath.Join(spotifyBasePath, "spotify.exe")
-
-		if _, err := os.Stat(dllPath); err == nil {
-			spotifyBinaryPath = dllPath
-		} else if _, err := os.Stat(exePath); err == nil {
-			spotifyBinaryPath = exePath
-		} else {
-			utils.PrintError("Could not find spotify.dll or spotify.exe in Spotify installation directory")
-			utils.Fatal(errors.New("aborting the patching process due to missing Spotify binaries"))
-		}
 	case "darwin":
 		spotifyBinaryPath = filepath.Join(spotifyBasePath, "..", "MacOS", "Spotify")
 	}
@@ -149,7 +137,7 @@ func Start(version string, spotifyBasePath string, extractedAppsPath string, fla
 	switch runtime.GOOS {
 	case "darwin":
 		frameworkResourcesPath = filepath.Join(spotifyBasePath, "..", "Frameworks", "Chromium Embedded Framework.framework", "Resources")
-	case "windows", "linux":
+	case "linux":
 		frameworkResourcesPath = spotifyBasePath
 	default:
 		utils.PrintError("Unsupported OS for V8 snapshot finding: " + runtime.GOOS)

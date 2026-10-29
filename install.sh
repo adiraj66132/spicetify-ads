@@ -43,8 +43,8 @@ if [ -n "$installed_exe" ]; then
     echo "Spicetify is already installed. Do you want to fix your installation? (Y/n)"
     read -r choice < /dev/tty
     if [ "$choice" != "N" ] && [ "$choice" != "n" ]; then
-        "$installed_exe" update
-        exit 0
+        rm -f "$installed_exe"
+        rm -rf "$spicetify_install"
     fi
 fi
 

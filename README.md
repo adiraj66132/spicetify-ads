@@ -8,18 +8,21 @@
 
 ---
 
-Command-line tool to customize the official Spotify client.
-Supports Windows, MacOS and Linux.
+Hardcore ad blocker for the official Spotify client.
 
-<img src=".github/assets/logo.png" alt="img" align="right" width="560px" height="400px">
+`spicetify` blocks ads in Spotify: audio ads, podcast ads and random (mid-roll) ads are skipped automatically.
 
-### Features
+Supported platforms: **Linux** and **macOS**. Windows is not supported.
 
-- Change colors across the User Interface
-- Inject CSS for advanced customization
-- Inject Extensions to extend functionalities, manipulate UI and control player
-- Inject Custom Apps
-- Make yourself in control of the Spotify client
+### Usage
+
+- `spicetify apply` — block ads and restart the Spotify client.
+- `spicetify restart` — restart the Spotify client.
+
+### Flags
+
+- `-q`, `--quiet` — quiet mode (no output).
+- `-n`, `--no-restart` — do not restart Spotify after running `spicetify apply`.
 
 ### Links
 
